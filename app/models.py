@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-
 from django.db import models
 
 # Acceptance Criteria
@@ -13,9 +12,10 @@ from django.db import models
 # Summary - no more than 10k chars
 # IP Address - IP of the review submitter
 # Submission date - the date the review was submitted
-# Company - information about the company for which the review was submitted, can be simple text (e.g., name, company id, etc.) or a separate model altogether
-# Reviewer Metadata - information about the reviewer, can be simple text (e.g., name, email, reviewer id, etc.) or a separate model altogether
-
+# Company - information about the company for which the review was submitted,
+# can be simple text (name, company id, etc.) or a separate model altogether
+# Reviewer Metadata - information about the reviewer, can be simple text
+# (e.g., name, email, reviewer id, etc.) or a separate model altogether
 
 
 class Entity(models.Model):
@@ -36,6 +36,9 @@ class Company(Entity):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Companies"
+
 
 class Review(Entity):
     RATING_CHOICES = (
@@ -48,7 +51,7 @@ class Review(Entity):
     title = models.CharField(max_length=64)
     rating = models.PositiveSmallIntegerField(choices=RATING_CHOICES)
     summary = models.TextField(max_length=10000)
-    ip_address=models.GenericIPAddressField()
+    ip_address = models.GenericIPAddressField()
     reviewer = models.ForeignKey('auth.User')
     company = models.ForeignKey('Company')
 
